@@ -9,7 +9,7 @@ import { SubirImagenesComponent } from './modules/imagenes/subir-imagenes.compon
   templateUrl: './app.component.html',
 })
 export class AppComponent implements OnInit {
-  title = 'laWiki';
+  title = 'esquemaParcial';
   constructor(private router: Router) {}
   ngOnInit() {
     this.router.events.subscribe((event) => {

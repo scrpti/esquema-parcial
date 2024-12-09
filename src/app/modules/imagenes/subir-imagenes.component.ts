@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { SubirImagenesService } from './subir-imagenes.service';
+import { SubirImagenesService } from './service/subir-imagenes.service';
 
 @Component({
   selector: 'app-subir-imagenes',
@@ -34,7 +34,7 @@ export class SubirImagenesComponent {
       formData.append('archivo', this.selectedFile);
 
       try {
-        const response = await fetch('http://localhost:8000/archivos/subir', {
+        const response = await fetch('http://localhost:8000/parcial/archivos/subir', {
           method: 'POST',
           body: formData,
         });
