@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
-import { SubirImagenesComponent } from './modules/imagenes/subir-imagenes.component';
 import { OAuthModule } from 'angular-oauth2-oidc';
 
 @Component({
@@ -8,13 +7,12 @@ import { OAuthModule } from 'angular-oauth2-oidc';
   standalone: true,
   imports: [
     RouterOutlet,
-    SubirImagenesComponent,
-    OAuthModule.forRoot({
-      resourceServer: {
-        allowedUrls: ['http://localhost:4200'], // URLs protegidas
-        sendAccessToken: true, // Enviar token en el header
-      },
-    }),
+    // OAuthModule.forRoot({
+    //   resourceServer: {
+    //     allowedUrls: ['http://localhost:4200'], // URLs protegidas
+    //     sendAccessToken: true, // Enviar token en el header
+    //   },
+    // }),
   ],
   templateUrl: './app.component.html',
 })
