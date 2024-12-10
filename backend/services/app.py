@@ -1,21 +1,22 @@
 import os
 
 import uvicorn
-from archivos import archivos_bp
+# from archivos import archivos_bp
 from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from mapas import mapas_bp
-from usuarios import usuarios_router
+
+# from mapas import mapas_bp
+# from usuarios import usuarios_router
 
 load_dotenv()
 
 app = FastAPI()
 
 # Registrar los microservicios como Blueprints
-app.include_router(mapas_bp)
-app.include_router(archivos_bp)
-app.include_router(usuarios_router)
+# app.include_router(mapas_bp)
+# app.include_router(archivos_bp)
+# app.include_router(usuarios_router)
 
 app.add_middleware(
     CORSMiddleware,
@@ -25,6 +26,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.get("/")
+def home():
+    return {"mensaje": "Bienvenido a la API de laWikiv2"}
+
+@app.get("/usuarios")
+def get_users():
+    return {"mensaje": "GET /usuarios"}
 
 # Ejecutar la aplicación FastAPI
 if __name__ == "__main__":
