@@ -1,23 +1,35 @@
 name: esquema-parcial-backend
 
+version: "3.9"
+
 x-backend: &backend
   env_file:
     - .env
   environment:
     - TZ=Europe/Madrid
-version: '3.9'
 
 services:
   backend:
+    <<: *backend
     build:
       context: .
       dockerfile: Dockerfile
     container_name: backend-container
-    env_file:
-      - .env
+    ports:
+      - "8000:8000"
+    command: python /app/services/app.py
+
+  backend-dev:
+    <<: *backend
+    profiles:
+      - desarrollo
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: backend-dev-container
     ports:
       - "8000:8000"
     volumes:
-      - ./services:/code/services
-      - ./models:/code/models
-    command: python /code/services/app.py
+      - ./services:/app/services
+      - ./models:/app/models
+    command: python /app/services/app.py
