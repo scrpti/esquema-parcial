@@ -1,13 +1,12 @@
 FROM python:3.9-slim
 
-WORKDIR /code
+WORKDIR /app
 
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 
 COPY . .
 
-# Añadir /code al PYTHONPATH
-ENV PYTHONPATH=/code
+ENV PYTHONPATH=/app
 
-CMD ["python", "/code/services/app.py"]
+CMD ["python", "/app/services/app.py"]

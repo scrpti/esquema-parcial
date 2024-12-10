@@ -6,7 +6,6 @@ import pymongo
 from dotenv import load_dotenv
 from fastapi import APIRouter, HTTPException, UploadFile
 from fastapi.responses import JSONResponse
-
 from models.archivo import ArchivoNew
 
 load_dotenv()
