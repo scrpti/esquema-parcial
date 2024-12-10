@@ -1,5 +1,10 @@
 name: esquema-parcial-frontend
 
+x-backend: &backend
+  env_file:
+    - ../backend/.env
+    - TZ=Europe/Madrid
+
 services:
   frontend:
     build:
@@ -10,8 +15,3 @@ services:
     container_name: frontend
     ports:
       - 4200:4200
-    volumes:
-      - ./src:/app/src
-      - ./public:/app/public  
-    command: npm start
-  

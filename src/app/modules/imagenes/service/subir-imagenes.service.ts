@@ -15,5 +15,4 @@ export class SubirImagenesService {
   getUrl(): string {
     return this.url;
   }
-
 }
