@@ -14,8 +14,8 @@ app = FastAPI()
 
 # Registrar los microservicios como Blueprints
 # app.include_router(mapas_bp)
-app.include_router(archivos_bp)
-# app.include_router(usuarios_router)
+# app.include_router(archivos_bp)
+app.include_router(usuarios_router)
 
 app.add_middleware(
     CORSMiddleware,
