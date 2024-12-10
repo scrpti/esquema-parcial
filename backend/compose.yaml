@@ -11,6 +11,8 @@ x-backend: &backend
 services:
   backend:
     <<: *backend
+    profiles:
+      - produccion
     build:
       context: .
       dockerfile: Dockerfile
