@@ -1,11 +1,12 @@
-import { Component, inject, OnInit } from "@angular/core";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { Component, inject, OnInit } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatButtonModule } from "@angular/material/button";
-import { MatIconModule } from "@angular/material/icon";
-import { AuthGoogleService } from "../../services/auth-google.service";
-import { Router } from "@angular/router";
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { AuthGoogleService } from '../../services/auth-google.service';
+import { Router } from '@angular/router';
+import { UserService } from '../../services/user.service';
 
 const MODULES: any[] = [
   MatButtonModule,
@@ -16,11 +17,11 @@ const MODULES: any[] = [
 ];
 
 @Component({
-  selector: "app-login",
+  selector: 'app-login',
   standalone: true,
   imports: [MODULES],
-  templateUrl: "./login.component.html",
-  styleUrl: "./login.component.scss",
+  templateUrl: './login.component.html',
+  styleUrl: './login.component.scss',
 })
 export class LoginComponent implements OnInit {
   constructor(
@@ -30,7 +31,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.authService.getToken()) {
-      this.router.navigate(["/dashboard"]);
+      this.router.navigate(['/dashboard']);
     }
   }
 

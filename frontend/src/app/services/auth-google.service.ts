@@ -25,7 +25,10 @@ export class AuthGoogleService {
         const profile = this.oAuthService.getIdentityClaims();
         this.profile.set(profile);
         this.userService.setUserProfile(profile);
-        console.log(this.userService.getUserProfile());
+        console.log(
+          'Profile set in userService: ',
+          this.userService.getUserProfile(),
+        );
       } else {
         this.router.navigate(['/login']);
       }

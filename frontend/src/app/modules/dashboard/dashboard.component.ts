@@ -1,34 +1,38 @@
-import { CommonModule } from "@angular/common";
-import { Component, effect, inject, OnInit, signal } from "@angular/core";
-import { Router } from "@angular/router";
-import { AuthGoogleService } from "../../services/auth-google.service";
-
-const MODULES = [CommonModule];
+import { CommonModule, JsonPipe } from '@angular/common';
+import { Component, effect, inject, OnInit, signal } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthGoogleService } from '../../services/auth-google.service';
+import { UserService } from '../../services/user.service';
+import { PruebaService } from '../../services/prueba.service';
 
 @Component({
-  selector: "app-dashboard",
+  selector: 'app-dashboard',
   standalone: true,
-  imports: [MODULES],
-  templateUrl: "./dashboard.component.html",
-  styleUrls: ["./dashboard.component.scss"],
+  imports: [JsonPipe],
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
   profile: any;
   token: string;
 
   constructor(
     private authService: AuthGoogleService,
     private router: Router,
+    private userService: UserService,
+    private prueba: PruebaService,
   ) {
     // this.profile = this.authService.profile;
     this.token = this.authService.getToken();
     this.profile = this.authService.getProfile();
-    effect(() => {
-      console.log("Perfil actualizado:", this.profile());
-    });
   }
+
+  ngOnInit(): void {
+    this.prueba.setNombre('Pedrito');
+  }
+
   logOut() {
     this.authService.logout();
-    this.router.navigate(["/login"]);
+    this.router.navigate(['/login']);
   }
 }
