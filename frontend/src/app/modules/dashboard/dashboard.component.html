@@ -1,9 +1,13 @@
-<div class="dashboard">
+<div class="dashboard" *ngIf="user">
   <h1>Dashboard - user has logged in</h1>
 
   <p>
-    {{ profile() | json }}
+    {{ user | json }}
   </p>
+
+  <h1>{{ user.name }}</h1>
+
+  <img [src]="user.imagen" [alt]="user.name" />
 
   <button (click)="logOut()">LogOut</button>
   <h1 (click)="toProfile()">Profile</h1>

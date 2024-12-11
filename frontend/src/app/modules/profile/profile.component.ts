@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
+import { User } from '../../models/user.model';
 
 @Component({
   selector: 'app-profile',
@@ -9,9 +10,12 @@ import { UserService } from '../../services/user.service';
   styleUrl: './profile.component.scss',
 })
 export class ProfileComponent implements OnInit {
-  userProfile = '';
+  user: User | null = null;
 
   constructor(private userService: UserService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.user = this.userService.getUser();
+    console.log(this.userService.getUserName());
+  }
 }

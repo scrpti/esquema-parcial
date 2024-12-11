@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { authConfig } from './auth.config';
 import { UserService } from './user.service';
+import { filter } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -21,14 +22,8 @@ export class AuthGoogleService {
     this.oAuthService.configure(authConfig);
     this.oAuthService.setupAutomaticSilentRefresh();
     this.oAuthService.loadDiscoveryDocumentAndTryLogin().then(() => {
-      if (this.oAuthService.hasValidIdToken()) {
-        const profile = this.oAuthService.getIdentityClaims();
-        this.profile.set(profile);
-        this.userService.setUserProfile(profile);
-        console.log(
-          'Profile set in userService: ',
-          this.userService.getUserProfile(),
-        );
+      if (this.oAuthService.hasValidAccessToken()) {
+        this.profile.set(this.oAuthService.getIdentityClaims());
       } else {
         this.router.navigate(['/login']);
       }
@@ -42,7 +37,7 @@ export class AuthGoogleService {
   logout() {
     this.oAuthService.revokeTokenAndLogout();
     this.oAuthService.logOut();
-    this.profile.set(null);
+    // this.profile.set(null);
     this.userService.clearUserProfile();
   }
 
@@ -51,6 +46,10 @@ export class AuthGoogleService {
   }
 
   getProfile() {
+    return this.oAuthService.getIdentityClaims();
+  }
+
+  getRawProfile() {
     return this.profile;
   }
 
