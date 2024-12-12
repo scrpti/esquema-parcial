@@ -9,14 +9,18 @@ import { map } from "rxjs/operators";
 })
 export class LogService {
   private apiUrl = environment.BACKEND_URL + '/parcial/usuarios/';
+  private logs: any[] = [];
 
   constructor(private http: HttpClient) {}
   
   getLog(): Observable<any[]> {
     let url = this.apiUrl;
-
-    return this.http
-      .get<{ wikis: any[] }>(url)
-      .pipe(map((response) => response.wikis));
+    //Quiero ver la respuesta de la peticion
+    
+    return this.http.get<any[]>(url).pipe(
+      map((data) => {
+        return data;
+      })
+    );
   }
 }
