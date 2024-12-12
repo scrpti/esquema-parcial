@@ -1,7 +1,5 @@
 name: esquema-parcial-backend
 
-version: "3.9"
-
 x-backend: &backend
   env_file:
     - .env

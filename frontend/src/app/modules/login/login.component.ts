@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { AuthGoogleService } from '../../services/auth-google.service';
 import { Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
+import { LoginService } from '../../services/login.service';
 
 const MODULES: any[] = [
   MatButtonModule,

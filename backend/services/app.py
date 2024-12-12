@@ -1,19 +1,20 @@
 import os
 
 import uvicorn
-# from archivos import archivos_bp
 from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-# from mapas import mapas_bp
-from usuarios import usuarios_router
+from services.mapas import mapas_bp
+from services.usuarios import usuarios_router
+from services.archivos import archivos_bp
+
 
 load_dotenv()
 
 app = FastAPI()
 
 # Registrar los microservicios como Blueprints
-# app.include_router(mapas_bp)
+app.include_router(mapas_bp)
 app.include_router(archivos_bp)
 app.include_router(usuarios_router)
 
@@ -31,3 +32,7 @@ if __name__ == "__main__":
     if puerto:
         puerto = int(puerto)
         uvicorn.run("app:app", host="0.0.0.0", port=puerto, reload=True)
+
+print("Rutas disponibles:")
+for route in app.routes:
+    print(route.path)

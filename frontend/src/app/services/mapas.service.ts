@@ -7,7 +7,7 @@ import { environment } from '../../environments/environment';
   providedIn: 'root',
 })
 export class MapasService {
-  private apiUrl = environment.BACKEND_URL + '/mapas/';
+  private apiUrl = environment.BACKEND_URL + '/parcial/mapas/';
 
   constructor(private http: HttpClient) {}
 

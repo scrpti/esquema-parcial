@@ -23,15 +23,22 @@ export class DashboardComponent implements OnInit {
     this.profile = this.authService.profile;
     effect(() => {
       if (this.profile) {
-        const { name, email, picture, sub } = this.profile();
+        console.log("Profile: ", this.profile());
+        const {email, sub, jti, exp} = this.profile();
         this.userService.setUser({
-          name,
+          token: jti,
           email,
-          imagen: picture,
+          timestamp: Date.now(),
+          caducidad: exp,
           googleId: sub,
         });
         this.user = this.userService.getUser();
       }
+      console.log
+      this.userService.crearUsuario(this.user).subscribe((res) => {
+        console.log(res);
+      }
+      );
     });
   }
 
