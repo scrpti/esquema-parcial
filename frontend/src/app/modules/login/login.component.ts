@@ -21,7 +21,7 @@ const MODULES: any[] = [
   standalone: true,
   imports: [MODULES],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss',
+  // styleUrl: './login.component.scss',
 })
 export class LoginComponent implements OnInit {
   constructor(

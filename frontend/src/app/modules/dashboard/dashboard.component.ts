@@ -9,7 +9,6 @@ import { UserService } from '../../services/user.service';
   standalone: true,
   imports: [JsonPipe, NgIf],
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
   profile: any;
@@ -58,5 +57,9 @@ export class DashboardComponent implements OnInit {
 
   toProfile() {
     this.router.navigate(['/profile']);
+  }
+
+  crearEvento() {
+    this.router.navigate(['/crear-evento']);
   }
 }

@@ -7,3 +7,4 @@ get-pip.py.1
 
 #.env
 __pycache__
+.vercel

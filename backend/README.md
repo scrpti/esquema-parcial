@@ -15,4 +15,4 @@ docker-compose up -d
 
 3. Acceder a la aplicación
 
-Desde un navegador con el enlace http://localhost:5000.
+Desde un navegador con el enlace http://localhost:8000.

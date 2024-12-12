@@ -1,14 +1,17 @@
-<div class="dashboard" *ngIf="user">
-  <h1>Dashboard - user has logged in</h1>
+<div class="dashboard items-center content-center flex flex-col flex-nowrap justify-center p-[16px]" *ngIf="user">
+  <h1 >Dashboard - {{ user.name }} has logged in</h1>
 
-  <p>
+  <!-- <p>
     {{ user | json }}
-  </p>
+  </p> -->
 
   <h1>{{ user.name }}</h1>
 
   <img [src]="user.imagen" [alt]="user.name" />
 
-  <button (click)="logOut()">LogOut</button>
-  <h1 (click)="toProfile()">Profile</h1>
+  
+
+  <button class="fixed bottom-4 rounded bg-blue-500 px-6 py-2 font-bold text-white shadow-lg hover:bg-blue-700" (click)="logOut()">LogOut</button>
+  <button class="fixed right-4 top-4 rounded bg-blue-500 px-6 py-2 font-bold text-white shadow-lg hover:bg-blue-700" (click)="toProfile()">Profile</button>
+  <button class="fixed left-4 top-4 rounded bg-blue-500 px-6 py-2 font-bold text-white shadow-lg hover:bg-blue-700" (click)="crearEvento()">Crear Evento</button>
 </div>
