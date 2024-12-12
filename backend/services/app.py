@@ -4,10 +4,10 @@ import uvicorn
 from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from services.archivos import archivos_bp
+from services.eventos import eventos_bp
 from services.mapas import mapas_bp
 from services.usuarios import usuarios_router
-from services.archivos import archivos_bp
-
 
 load_dotenv()
 
@@ -17,6 +17,7 @@ app = FastAPI()
 app.include_router(mapas_bp)
 app.include_router(archivos_bp)
 app.include_router(usuarios_router)
+app.include_router(eventos_bp)
 
 app.add_middleware(
     CORSMiddleware,
@@ -33,6 +34,6 @@ if __name__ == "__main__":
         puerto = int(puerto)
         uvicorn.run("app:app", host="0.0.0.0", port=puerto, reload=True)
 
-print("Rutas disponibles:")
-for route in app.routes:
-    print(route.path)
+# print("Rutas disponibles:")
+# for route in app.routes:
+#     print(route.path)
