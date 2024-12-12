@@ -47,6 +47,7 @@ export class MapasComponent implements OnInit {
       this.mapasService.searchByQuery({ lat, lon }).subscribe((response) => {
         const coords = response.data;
         if (coords) {
+          this.mapasService.setCoordenadas(coords.lat, coords.lon);
           this.actualizarMapaEnVista(coords.lat, coords.lon);
         }
       });
@@ -55,6 +56,8 @@ export class MapasComponent implements OnInit {
         .searchByQuery({ query: inputValue })
         .subscribe((response) => {
           const coords = response.data;
+          //Aqui haremos la funcion que envie estas coordenadas al service para guardarlas, como con las fotos
+          this.mapasService.setCoordenadas(coords.lat, coords.lon);
           if (coords) {
             this.actualizarMapaEnVista(coords.lat, coords.lon);
           }

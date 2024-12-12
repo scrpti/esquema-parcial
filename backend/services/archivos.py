@@ -32,6 +32,9 @@ cloudinary.config(
 @archivos_bp.post("/subir")
 async def subir_archivo(archivo: UploadFile):
     try:
+        # if archivos.find_one({"nombre": archivo.filename}):
+        #     return JSONResponse(content={"mensaje":"El archivo ya existe en la base de datos"}, status_code=201)
+
         # Subir el archivo a Cloudinary
         upload_result = cloudinary.uploader.upload(archivo.file, public_id=archivo.filename)
 

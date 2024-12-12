@@ -69,4 +69,8 @@ export class DashboardComponent implements OnInit {
   crearEvento() {
     this.router.navigate(['/crear-evento']);
   }
+
+  toLog() {
+    this.router.navigate(['/log']);
+  }
 }

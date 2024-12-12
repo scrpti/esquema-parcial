@@ -7,9 +7,21 @@ import { environment } from '../../environments/environment';
   providedIn: 'root',
 })
 export class MapasService {
-  private apiUrl = environment.BACKEND_URL + '/parcial/mapas/';
+  private ubi : any = { lat: 0, lon: 0 };
 
+  private apiUrl = environment.BACKEND_URL + '/parcial/mapas/';
+   
   constructor(private http: HttpClient) {}
+
+  setCoordenadas(lat: number, lon: number): void {
+    this.ubi.lat = lat;
+    this.ubi.lon = lon;
+    console.log(this.ubi);
+  }
+  
+  getCoordenadas(): any {
+    return this.ubi;
+  }
 
   searchByQuery(params: { query?: string; lat?: number; lon?: number }): Observable<any> {
     let url = this.apiUrl;
