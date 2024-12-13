@@ -4,6 +4,7 @@ import uvicorn
 from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from middlewares.auth import AuthMiddleware
 from services.archivos import archivos_bp
 from services.eventos import eventos_bp
 from services.mapas import mapas_bp
@@ -18,6 +19,8 @@ app.include_router(mapas_bp)
 app.include_router(archivos_bp)
 app.include_router(usuarios_router)
 app.include_router(eventos_bp)
+
+app.add_middleware(AuthMiddleware)
 
 app.add_middleware(
     CORSMiddleware,
