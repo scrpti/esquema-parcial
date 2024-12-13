@@ -4,17 +4,19 @@ import { Router } from '@angular/router';
 import { AuthGoogleService } from '../../services/auth-google.service';
 import { UserService } from '../../services/user.service';
 import { EventosService } from '../../services/eventos.service';
+import { MapasComponent } from '../mapas/mapas.component';
+import { MapasService } from '../../services/mapas.service';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [JsonPipe, NgIf, NgFor],
+  imports: [JsonPipe, NgIf, NgFor, MapasComponent],
   templateUrl: './dashboard.component.html',
 })
 export class DashboardComponent implements OnInit {
   profile: any;
   user: any;
-  eventos: any[] = [];
+  eventos : any;
   // token: string;
 
   constructor(
@@ -22,6 +24,7 @@ export class DashboardComponent implements OnInit {
     private router: Router,
     private userService: UserService,
     private eventosService: EventosService,
+    private mapasService: MapasService,
   ) {
     this.profile = this.authService.profile;
     effect(() => {
@@ -58,7 +61,7 @@ export class DashboardComponent implements OnInit {
     //     });
     //   }
     // });
-    this.getEventos();
+    this.obtenerEventos();
   }
 
   logOut() {
@@ -78,10 +81,26 @@ export class DashboardComponent implements OnInit {
     this.router.navigate(['/log']);
   }
 
-  getEventos() {
-    this.eventosService.getEventos().subscribe((res) => {
-      this.eventos = res;
-      console.log(this.eventos);
+  obtenerEventos(): void {
+    this.eventosService.getEventos().subscribe({
+      next: (eventos) => {
+        this.eventos = eventos;
+        console.log(this.eventos["eventos"]);
+      },
+      error: (error) => {
+        console.error("Error al obtener el log:", error);
+      }
+    });
+  }
+
+  cargarMapa() {
+    this.mapasService.searchByQuery().subscribe({
+      next: (mapa) => {
+        
+      },
+      error: (err) => {
+        console.error("Error al obtener el mapa:", err);
+      },
     });
   }
 }

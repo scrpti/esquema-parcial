@@ -17,10 +17,8 @@ export class EventosService {
     let url = this.apiUrl;
     //Quiero ver la respuesta de la peticion
     
-    
     return this.http.get<any[]>(url).pipe(
       map((data) => {
-        this.eventos = data;
         return data;
       })
     );

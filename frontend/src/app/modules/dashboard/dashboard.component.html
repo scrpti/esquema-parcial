@@ -10,16 +10,39 @@
   <img [src]="user.imagen" [alt]="user.name" />
 
   <!--Aqui se veran todos los eventos que hayan en la base de datos-->
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-    <div *ngFor="let evento of this.eventos" class="rounded-lg bg-white shadow-md p-4">
-      <h2>{{ evento.nombre }}</h2>
-      <p>{{ evento.organizador }}</p>
-      <p>{{ evento.timestamp }}</p>
-      <img [src]="evento.imagen" [alt]="evento.nombre" />
-      <!-- <app-mapas [ubicacion.lat]="evento.lat" [ubicacion.lon]="evento.lat></app-mapas> -->
-    </div>
-  </div>
-
+  <div
+  class="mt-4 flex max-w-full flex-col gap-5 rounded-lg bg-gray-50 p-5 shadow-lg"
+>
+  @if (eventos["eventos"].length > 0) {
+    <ul class="w-full gap-5 space-y-4">
+      @for (eventos of this.eventos["eventos"]; track eventos.email) {
+        <li class="flex w-full cursor-pointer flex-col justify-between gap-5 rounded-lg bg-white p-4 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:transform hover:bg-blue-50 hover:shadow-xl sm:flex-row">
+          <div class="flex-grow cursor-pointer">
+            <!--Aqui se mostraran los eventos, cada evento mostrara su organizador, fecha, lugar-->
+            <h2 class="text-xl font-semibold text-gray-800">
+              Organizador del evento: {{ eventos.organizador }}
+            </h2>
+            <h2 class="text-xl font-semibold text-gray-800">
+              Fecha del evento: {{ eventos.timestamp }}
+            </h2>
+            <h2 class="text-xl font-semibold text-gray-800">
+              Lugar del evento: {{ eventos.lugar }}
+            </h2>
+            <h2 class="text-xl font-semibold text-gray-800">
+              Imagen del evento: <img [src]="eventos.imagen" [alt]="eventos.nombre" />
+            </h2>
+            <h2 class="text-xl font-semibold text-gray-800">
+              Mapa del evento: <app-mapas [ubicacion]="" [mostrarBusqueda]="true"></app-mapas> 
+            </h2>
+            
+          </div>
+        </li>
+      }
+    </ul>
+  } @else {
+    <h2 class="text-center text-gray-500">No se encontraron eventos</h2>
+  }
+</div>
   <button class="fixed bottom-4 rounded bg-blue-500 px-6 py-2 font-bold text-white shadow-lg hover:bg-blue-700" (click)="logOut()">LogOut</button>
   <button class="fixed right-4 top-4 rounded bg-blue-500 px-6 py-2 font-bold text-white shadow-lg hover:bg-blue-700" (click)="toProfile()">Profile</button>
   <button class="fixed left-4 top-4 rounded bg-blue-500 px-6 py-2 font-bold text-white shadow-lg hover:bg-blue-700" (click)="crearEvento()">Crear Evento</button>
