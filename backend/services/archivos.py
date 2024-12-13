@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 from fastapi import APIRouter, HTTPException, UploadFile
 from fastapi.responses import JSONResponse
 from models.archivo import ArchivoNew
+from pymongo import MongoClient
 
 load_dotenv()
 MONGO_URL = os.getenv("MONGO_URL")

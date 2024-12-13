@@ -5,7 +5,8 @@ export const authConfig: AuthConfig = {
   issuer: "https://accounts.google.com",
   strictDiscoveryDocumentValidation: false,
   showDebugInformation: true,
-  clientId: environment.CLIENT_ID_MIGUEL,
-  redirectUri: window.location.origin + "/dashboard",
+  clientId: environment.CLIENT_ID,
+  //redirectUri: window.location.origin + "/dashboard",
+  redirectUri: "https://frontend-examen.vercel.app/dashboard",
   scope: "openid profile email",
 };

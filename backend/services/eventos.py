@@ -6,15 +6,17 @@ from dotenv import load_dotenv
 from fastapi import APIRouter, Depends, HTTPException
 from models.evento import (Evento, EventoList, EventoNew, EventoQuery,
                            EventoUpdate)
+from pymongo import MongoClient
 
 load_dotenv()
 MONGO_URL = os.getenv("MONGO_URL")
-MONGO_DB = os.getenv("MONGO_DB")
+
 
 eventos_bp = APIRouter(prefix="/eventos", tags=["eventos"])
 
-client = pymongo.MongoClient(MONGO_URL)
-db = client.MONGO_DB
+# Configuración de MongoDB
+client = MongoClient(MONGO_URL)
+db = client.ParcialWeb
 eventos = db.eventos
 
 @eventos_bp.get("/")

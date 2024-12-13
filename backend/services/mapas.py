@@ -5,6 +5,8 @@ from bson.objectid import ObjectId
 from dotenv import load_dotenv
 from fastapi import APIRouter, HTTPException
 from cachetools import TTLCache
+from pymongo import MongoClient
+
 
 from models.mapa import MapaId, Mapa, MapaNew, MapaUpdate
 
@@ -13,7 +15,9 @@ MONGO_URL = os.getenv("MONGO_URL")
 
 mapas_bp = APIRouter(prefix="/parcial/mapas", tags=["mapas"])
 
-db = pymongo.MongoClient(MONGO_URL).laWikiv2
+# Configuración de MongoDB
+client = MongoClient(MONGO_URL)
+db = client.ParcialWeb
 mapas = db.mapas
 
 cache = TTLCache(maxsize=100, ttl=3600)
