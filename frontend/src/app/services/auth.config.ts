@@ -6,7 +6,8 @@ export const authConfig: AuthConfig = {
   strictDiscoveryDocumentValidation: false,
   showDebugInformation: true,
   clientId: environment.CLIENT_ID,
-  //redirectUri: window.location.origin + "/dashboard",
-  redirectUri: "https://frontend-examen.vercel.app/dashboard",
+  redirectUri: window.location.origin + "/dashboard",
+  // redirectUri: "https://frontend-examen.vercel.app/dashboard",
+  //CAMBIAR PARA DESARROLLO
   scope: "openid profile email",
 };

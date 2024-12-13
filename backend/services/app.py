@@ -9,6 +9,7 @@ from services.archivos import archivos_bp
 from services.eventos import eventos_bp
 from services.mapas import mapas_bp
 from services.usuarios import usuarios_router
+from services.marcadores import marcadores_bp
 
 load_dotenv()
 
@@ -19,8 +20,9 @@ app.include_router(mapas_bp)
 app.include_router(archivos_bp)
 app.include_router(usuarios_router)
 app.include_router(eventos_bp)
+app.include_router(marcadores_bp)
 
-app.add_middleware(AuthMiddleware)
+#app.add_middleware(AuthMiddleware)
 
 app.add_middleware(
     CORSMiddleware,

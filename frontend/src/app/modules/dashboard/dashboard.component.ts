@@ -9,6 +9,7 @@ import { BorrarEventoComponent } from '../borrar-evento/borrar-evento.component'
 import { EditarEventoComponent } from '../editar-evento/editar-evento.component';
 import { MapasService } from '../../services/mapas.service';
 import { FormControl, FormGroup } from '@angular/forms';
+import { MarcadoresService } from '../../services/marcadores.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -19,15 +20,17 @@ import { FormControl, FormGroup } from '@angular/forms';
 export class DashboardComponent implements OnInit {
   profile: any;
   user: any;
-  eventos : any;
+  marcadores : any;
+  lat: string = "";
+  lon: string = "";
   // token: string;
 
   constructor(
     private authService: AuthGoogleService,
     private router: Router,
     private userService: UserService,
-    private eventosService: EventosService,
     private mapasService: MapasService,
+    private marcadoresService: MarcadoresService,
   ) {
     this.profile = this.authService.profile;
     effect(() => {
@@ -64,7 +67,7 @@ export class DashboardComponent implements OnInit {
     //     });
     //   }
     // });
-    this.obtenerEventos();
+    this.obtenerMarcadores();
   }
 
   logOut() {
@@ -76,24 +79,46 @@ export class DashboardComponent implements OnInit {
     this.router.navigate(['/profile']);
   }
 
-  crearEvento() {
-    this.router.navigate(['/crear-evento']);
+  crearMarcador() {
+    this.router.navigate(['/crear-marcador']);
   }
 
   toLog() {
     this.router.navigate(['/log']);
   }
 
-  obtenerEventos(): void {
-    this.eventosService.getEventos().subscribe({
-      next: (eventos) => {
-        this.eventos = eventos;
-        console.log(this.eventos["eventos"]);
+  obtenerMarcadores(): void {
+    this.marcadoresService.getMarcadores().subscribe({
+      next: (marcadores) => {
+        this.marcadores = marcadores;
+        console.log(this.marcadores["marcadores"]);
+        console.log("Marcadores obtenidos correctamente:", marcadores);
+        this.obtenerCoordenadasDeLosMarcadores(this.marcadores["marcadores"]);
+        //Aqui definimos que se vayan poniendo los marcadores en el mapa
+        //Iteraremos entre los diferentes marcadores y los iremos poniendo en el mapa
+        // this.marcadores["marcadores"].forEach((marcador: any) => {
+        //   const lat = marcador.lat;
+        //   const lon = marcador.lon;
+        //   this.mapasService.searchByQuery({ lat: parseFloat(lat), lon: parseFloat(lon) });
+        // });
+        
+        this.lat = this.marcadores["marcadores"][0].lat;
+        this.lon = this.marcadores["marcadores"][0].lon;
+        console.log("Coordenadas:" + this.lat, this.lon);  
       },
       error: (error) => {
-        console.error("Error al obtener los eventos:", error);
+        console.error("Error al obtener los marcadores:", error);
       }
     });
+  }
+
+  obtenerCoordenadasDeLosMarcadores(marcadores: any): any {
+    let coordenadas: any[] = [];
+    marcadores.forEach((marcador: any) => {
+      console.log(marcador.lat, marcador.lon);
+      coordenadas.push(this.coordToGroup(marcador.lat, marcador.lon));
+    });
+    return coordenadas;
   }
 
   coordToGroup(lat:string, lon:string): FormGroup{
@@ -104,13 +129,6 @@ export class DashboardComponent implements OnInit {
 
   }
 
-  editarEvento(evento: any) {
-    this.router.navigate(['/editar-evento'], {
-      state: {
-        evento: evento
-      }
-    });
-  }
 
   // cargarMapa() {
   //   this.mapasService.searchByQuery().subscribe({
