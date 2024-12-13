@@ -1,39 +1,55 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { catchError, Observable, throwError } from 'rxjs';
-import { environment } from '../../environments/environment';
+import { Injectable } from "@angular/core";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { catchError, Observable, throwError } from "rxjs";
+import { environment } from "../../environments/environment";
+import { AuthGoogleService } from "./auth-google.service";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class MapasService {
-  private ubi : any = { lat: 0, lon: 0 };
-  private lugar : string = '';
+  private ubi: any = { lat: 0, lon: 0 };
+  private lugar: string = "";
 
-  private apiUrl = environment.BACKEND_URL + '/parcial/mapas/';
-   
-  constructor(private http: HttpClient) {}
+  private apiUrl = environment.BACKEND_URL + "/parcial/mapas/";
+
+  constructor(
+    private http: HttpClient,
+    private authService: AuthGoogleService,
+  ) { }
+
+  private createAuthHeaders(): HttpHeaders {
+    const token = this.authService.getTokenId();
+    return new HttpHeaders({
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`, // Incluir el token Bearer en los encabezados
+    });
+  }
 
   setCoordenadas(lat: number, lon: number): void {
     this.ubi.lat = lat;
     this.ubi.lon = lon;
     console.log(this.ubi);
   }
-  
+
   getCoordenadas(): any {
     return this.ubi;
   }
 
-  setLugar(lugar : string): void {
+  setLugar(lugar: string): void {
     this.lugar = lugar;
     console.log(this.lugar);
   }
-  
+
   getLugar(): any {
     return this.lugar;
   }
-  
-  searchByQuery(params: { query?: string; lat?: number; lon?: number }): Observable<any> {
+
+  searchByQuery(params: {
+    query?: string;
+    lat?: number;
+    lon?: number;
+  }): Observable<any> {
     let url = this.apiUrl;
 
     if (params.query) {
@@ -44,44 +60,50 @@ export class MapasService {
       throw new Error("Debe proporcionar una 'query' o 'lat' y 'lon'");
     }
 
-    return this.http.get<any>(url).pipe(
+    const headers = this.createAuthHeaders();
+    return this.http.get<any>(url, { headers }).pipe(
       catchError((error) => {
         console.error("Error al buscar ubicación:", error);
         return throwError(() => error);
-      })
+      }),
     );
   }
 
   createMapa(mapaData: any): Observable<any> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.post(this.apiUrl,mapaData,{headers}).pipe(
-        catchError((error) => {
-            console.error("Error al crear el mapa", error);
-            return throwError(() => error);
-        })
+    const headers = this.createAuthHeaders();
+    return this.http.post(this.apiUrl, mapaData, { headers }).pipe(
+      catchError((error) => {
+        console.error("Error al crear el mapa", error);
+        return throwError(() => error);
+      }),
     );
   }
 
   updateMapa(id: string, mapaData: any): Observable<any> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.put(`${this.apiUrl}${id}`,mapaData,{headers}).pipe(
-        catchError((error) => {
-            console.error("Error al actualizar el mapa", error);
-            return throwError(() => error);
-        })
+    const headers = this.createAuthHeaders();
+    return this.http.put(`${this.apiUrl}${id}`, mapaData, { headers }).pipe(
+      catchError((error) => {
+        console.error("Error al actualizar el mapa", error);
+        return throwError(() => error);
+      }),
     );
   }
 
   getMapaByEntradaId(entradaId: string): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}entrada/${entradaId}`);
+    const headers = this.createAuthHeaders();
+    return this.http.get<any>(`${this.apiUrl}entrada/${entradaId}`, {
+      headers,
+    });
   }
 
   deleteMapa(id: string): Observable<any> {
-    return this.http.delete(`${this.apiUrl}${id}`).pipe(
+    const headers = this.createAuthHeaders();
+    return this.http.delete(`${this.apiUrl}${id}`, { headers }).pipe(
       catchError((error) => {
         console.error("Error al eliminar el mapa", error);
         return throwError(() => error);
-      })
+      }),
     );
   }
 }
+

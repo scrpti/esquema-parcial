@@ -1,17 +1,17 @@
-import { inject, Injectable, signal } from '@angular/core';
-import { Router } from '@angular/router';
-import { OAuthService } from 'angular-oauth2-oidc';
-import { authConfig } from './auth.config';
-import { UserService } from './user.service';
-import { filter } from 'rxjs';
+import { inject, Injectable, signal } from "@angular/core";
+import { Router } from "@angular/router";
+import { OAuthService } from "angular-oauth2-oidc";
+import { authConfig } from "./auth.config";
+import { UserService } from "./user.service";
+import { filter } from "rxjs";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class AuthGoogleService {
   private oAuthService = inject(OAuthService);
   private router = inject(Router);
-  private userService = inject(UserService);
+  // private userService = inject(UserService);
   profile = signal<any>(null);
 
   constructor() {
@@ -25,7 +25,7 @@ export class AuthGoogleService {
       if (this.oAuthService.hasValidAccessToken()) {
         this.profile.set(this.oAuthService.getIdentityClaims());
       } else {
-        this.router.navigate(['/login']);
+        this.router.navigate(["/login"]);
       }
     });
   }
@@ -38,11 +38,15 @@ export class AuthGoogleService {
     this.oAuthService.revokeTokenAndLogout();
     this.oAuthService.logOut();
     // this.profile.set(null);
-    this.userService.clearUserProfile();
+    // this.userService.clearUserProfile();
   }
 
   getToken() {
     return this.oAuthService.getAccessToken();
+  }
+
+  getTokenId() {
+    return this.oAuthService.getIdToken();
   }
 
   getProfile() {
