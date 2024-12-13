@@ -4,7 +4,8 @@ import pymongo
 from bson import ObjectId
 from dotenv import load_dotenv
 from fastapi import APIRouter, Depends, HTTPException
-from models.evento import Evento, EventoList, EventoNew, EventoQuery
+from models.evento import (Evento, EventoList, EventoNew, EventoQuery,
+                           EventoUpdate)
 
 load_dotenv()
 MONGO_URL = os.getenv("MONGO_URL")
@@ -54,3 +55,27 @@ def create_evento(evento: EventoNew):
         raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error al crear el evento, {e}")
+
+@eventos_bp.put("/{id}")
+def update_evento(id: str, evento: EventoUpdate):
+    try:
+        evento_res = eventos.update_one({"_id": ObjectId(id)}, {"$set": evento.to_mongo_dict(exclude_none=True)})
+        if evento_res.modified_count == 0:
+            raise HTTPException(status_code=404, detail="Evento no encontrado")
+        return {"message": "Evento actualizado exitosamente"}
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error al actualizar el evento, {e}")
+
+@eventos_bp.delete("/{id}")
+def delete_evento(id: str):
+    try:
+        evento_res = eventos.delete_one({"_id": ObjectId(id)})
+        if evento_res.deleted_count == 0:
+            raise HTTPException(status_code=404, detail="Evento no encontrado")
+        return {"message": "Evento eliminado exitosamente"}
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error al eliminar el evento, {e}")
