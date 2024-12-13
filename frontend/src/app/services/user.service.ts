@@ -1,24 +1,31 @@
-import { Injectable } from '@angular/core';
-import { User } from '../models/user.model';
-import { Observable } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { environment } from '../../environments/environment';
+import { Injectable } from "@angular/core";
+import { User } from "../models/user.model";
+import { Observable } from "rxjs";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { environment } from "../../environments/environment";
+import { AuthGoogleService } from "./auth-google.service";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class UserService {
-  private apiUrl = environment.BACKEND_URL + '/parcial/usuarios/';
+  private apiUrl = environment.BACKEND_URL + "/parcial/usuarios/";
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private authService: AuthGoogleService,
+  ) { }
 
   crearUsuario(usuarioData: any): Observable<any> {
     console.log("URL de la API: ", this.apiUrl);
     console.log(usuarioData);
-     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.post(this.apiUrl,usuarioData,{headers});
+    const headers = new HttpHeaders({
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${this.authService.getTokenId()}`,
+    });
+    return this.http.post(this.apiUrl, usuarioData, { headers });
   }
-  
+
   user: User | null = null;
 
   setUser(user: User) {
@@ -53,7 +60,7 @@ export class UserService {
     return this.user?.timestamp;
   }
 
-  // Métodos para obtener y establecer la caducidad del token del usuario 
+  // Métodos para obtener y establecer la caducidad del token del usuario
 
   setToken(token: string) {
     if (this.user) {
@@ -66,7 +73,7 @@ export class UserService {
   }
 
   // Métodos para obtener y establecer la caducidad del token del usuario
-  
+
   setCaducidad(caducidad: number) {
     if (this.user) this.user.caducidad = caducidad;
   }
