@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import * as L from "leaflet";
 import { MapasService } from "./../../services/mapas.service";
 import { FormBuilder, FormGroup, ReactiveFormsModule } from "@angular/forms";
+import { query } from "@angular/animations";
 
 @Component({
   selector: "app-mapas",
@@ -48,6 +49,7 @@ export class MapasComponent implements OnInit {
         const coords = response.data;
         if (coords) {
           this.mapasService.setCoordenadas(coords.lat, coords.lon);
+          this.mapasService.setLugar(inputValue);
           this.actualizarMapaEnVista(coords.lat, coords.lon);
         }
       });
@@ -58,6 +60,7 @@ export class MapasComponent implements OnInit {
           const coords = response.data;
           //Aqui haremos la funcion que envie estas coordenadas al service para guardarlas, como con las fotos
           this.mapasService.setCoordenadas(coords.lat, coords.lon);
+          this.mapasService.setLugar(inputValue);
           if (coords) {
             this.actualizarMapaEnVista(coords.lat, coords.lon);
           }

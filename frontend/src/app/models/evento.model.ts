@@ -1,9 +1,9 @@
 export interface Evento {
-    name: string;
-    timestamp: string;
-    lugar: string;
-    lat: number;
-    lon: number;
-    email: string;
+    nombre: string;
+    timestamp: Date;
+    lugar: string; 
+    lat: string; //Se sacan con geocoding
+    lon: string; //Se sacan con geocoding
+    organizador: string;
     imagen: string;
   }  

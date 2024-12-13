@@ -9,7 +9,16 @@
 
   <img [src]="user.imagen" [alt]="user.name" />
 
-  
+  <!--Aqui se veran todos los eventos que hayan en la base de datos-->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div *ngFor="let evento of this.eventos" class="rounded-lg bg-white shadow-md p-4">
+      <h2>{{ evento.nombre }}</h2>
+      <p>{{ evento.organizador }}</p>
+      <p>{{ evento.timestamp }}</p>
+      <img [src]="evento.imagen" [alt]="evento.nombre" />
+      <!-- <app-mapas [ubicacion.lat]="evento.lat" [ubicacion.lon]="evento.lat></app-mapas> -->
+    </div>
+  </div>
 
   <button class="fixed bottom-4 rounded bg-blue-500 px-6 py-2 font-bold text-white shadow-lg hover:bg-blue-700" (click)="logOut()">LogOut</button>
   <button class="fixed right-4 top-4 rounded bg-blue-500 px-6 py-2 font-bold text-white shadow-lg hover:bg-blue-700" (click)="toProfile()">Profile</button>

@@ -8,6 +8,7 @@ import { environment } from '../../environments/environment';
 })
 export class MapasService {
   private ubi : any = { lat: 0, lon: 0 };
+  private lugar : string = '';
 
   private apiUrl = environment.BACKEND_URL + '/parcial/mapas/';
    
@@ -23,6 +24,15 @@ export class MapasService {
     return this.ubi;
   }
 
+  setLugar(lugar : string): void {
+    this.lugar = lugar;
+    console.log(this.lugar);
+  }
+  
+  getLugar(): any {
+    return this.lugar;
+  }
+  
   searchByQuery(params: { query?: string; lat?: number; lon?: number }): Observable<any> {
     let url = this.apiUrl;
 
