@@ -5,12 +5,15 @@ import { AuthGoogleService } from '../../services/auth-google.service';
 import { UserService } from '../../services/user.service';
 import { EventosService } from '../../services/eventos.service';
 import { MapasComponent } from '../mapas/mapas.component';
+import { BorrarEventoComponent } from '../borrar-evento/borrar-evento.component';
+import { EditarEventoComponent } from '../editar-evento/editar-evento.component';
 import { MapasService } from '../../services/mapas.service';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [JsonPipe, NgIf, NgFor, MapasComponent],
+  imports: [JsonPipe, NgIf, NgFor, MapasComponent, BorrarEventoComponent , EditarEventoComponent],
   templateUrl: './dashboard.component.html',
 })
 export class DashboardComponent implements OnInit {
@@ -88,19 +91,35 @@ export class DashboardComponent implements OnInit {
         console.log(this.eventos["eventos"]);
       },
       error: (error) => {
-        console.error("Error al obtener el log:", error);
+        console.error("Error al obtener los eventos:", error);
       }
     });
   }
 
-  cargarMapa() {
-    this.mapasService.searchByQuery().subscribe({
-      next: (mapa) => {
-        
-      },
-      error: (err) => {
-        console.error("Error al obtener el mapa:", err);
-      },
+  coordToGroup(lat:string, lon:string): FormGroup{
+    return new FormGroup({
+      lat: new FormControl(lat),
+      lon: new FormControl(lon)
+    })
+
+  }
+
+  editarEvento(evento: any) {
+    this.router.navigate(['/editar-evento'], {
+      state: {
+        evento: evento
+      }
     });
   }
+
+  // cargarMapa() {
+  //   this.mapasService.searchByQuery().subscribe({
+  //     next: (mapa) => {
+        
+  //     },
+  //     error: (err) => {
+  //       console.error("Error al obtener el mapa:", err);
+  //     },
+  //   });
+  // }
 }

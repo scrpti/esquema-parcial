@@ -40,6 +40,17 @@ export class MapasComponent implements OnInit {
     }
   }
 
+  buscarPorCoordenadas(lat : string, lon : string): void {
+    this.mapasService.searchByQuery({ lat: parseFloat(lat), lon: parseFloat(lon) }).subscribe((response) => {
+      const coords = response.data;
+      if (coords) {
+        this.mapasService.setCoordenadas(coords.lat, coords.lon);
+        this.mapasService.setLugar(`${lat}, ${lon}`);
+        this.actualizarMapaEnVista(coords.lat, coords.lon);
+      }
+    });
+  }
+
   buscar(inputValue: string): void {
     if (this.esCoordenadas(inputValue)) {
       const [lat, lon] = inputValue

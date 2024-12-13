@@ -36,4 +36,22 @@ export class EventosService {
       }),
     );
   }
+
+  getEvento(id: string): Observable<any> {
+    let url = this.apiUrl + id;
+    const headers = this.createAuthHeaders();
+    return this.http.get<any>(url, { headers });
+  }
+
+  deleteEvento(id: string): Observable<any> {
+    let url = this.apiUrl + id;
+    const headers = this.createAuthHeaders();
+    return this.http.delete<any>(url, { headers });
+  }
+
+  editEvento(id: string, eventoData: any): Observable<any> {
+    let url = this.apiUrl + id;
+    const headers = this.createAuthHeaders();
+    return this.http.put(url, eventoData, { headers });
+  }
 }
